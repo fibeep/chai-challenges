@@ -7,7 +7,12 @@ const Message = require('../models/message')
 /** Route to get all messages. */
 router.get('/', (req, res) => {
     // TODO: Get all Message objects using `.find()`
-
+    Message.find().then((messages) => {
+        return res.json({messages})
+    })
+    .catch((err) => {
+        throw err.message
+    });
     // TODO: Return the Message objects as a JSON list
 })
 

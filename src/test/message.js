@@ -29,17 +29,40 @@ after((done) => {
 describe('Message API endpoints', () => {
     beforeEach((done) => {
         // TODO: add any beforeEach code here
-        done()
+        const sampleUser = new User({
+            username: 'newuser',
+            password: 'mypassword',
+        })
+        sampleUser.save()
+        const sampleMessage = new Message({
+            title: 'mytitle',
+            author: sampleUser._id,
+            body: 'mybody',
+        })
+        sampleMessage.save()
+        .then(() => {
+            done()
+        })
     })
 
     afterEach((done) => {
         // TODO: add any afterEach code here
-        done()
+        Message.deleteOne({ title: 'mytitle' })
+        User.deleteOne({username : 'myuser'})
+        .then(() => {
+            done()
+        })  
     })
 
     it('should load all messages', (done) => {
-        // TODO: Complete this
-        done()
+        chai.request(app)
+        .get('/messages')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(200)
+            expect(res.body.users).to.be.an("array")
+            done()
+        })
     })
 
     it('should get one specific message', (done) => {
