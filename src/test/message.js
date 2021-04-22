@@ -60,7 +60,7 @@ describe('Message API endpoints', () => {
         .end((err, res) => {
             if (err) { done(err) }
             expect(res).to.have.status(200)
-            expect(res.body.users).to.be.an("array")
+            expect(res.body.messages).to.be.an("array")
             done()
         })
     })
