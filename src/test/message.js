@@ -28,7 +28,7 @@ after((done) => {
 
 describe('Message API endpoints', () => {
     beforeEach((done) => {
-        // TODO: add any beforeEach code here
+        
         const sampleUser = new User({
             username: 'newuser',
             password: 'mypassword',
@@ -46,7 +46,7 @@ describe('Message API endpoints', () => {
     })
 
     afterEach((done) => {
-        // TODO: add any afterEach code here
+        
         Message.deleteOne({ title: 'mytitle' })
         User.deleteOne({username : 'myuser'})
         .then(() => {
@@ -66,8 +66,17 @@ describe('Message API endpoints', () => {
     })
 
     it('should get one specific message', (done) => {
-        // TODO: Complete this
-        done()
+        const message = Message.findOne({title: 'mytitle'})
+        chai.request(app)
+        .get(`/messages/${message._id}`)
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(200)
+            expect(res.body).to.be.an('object')
+            //expect(res.body.author).to.equal('newuser')
+            expect(res.body.title).to.equal('mytitle')
+            done()
+        })
     })
 
     it('should post a new message', (done) => {
